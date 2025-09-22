@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ITC505 Lab 3 — Serving Fonts with Google Fonts</title>
+
+  <!-- Link to Google Fonts (Fredericka the Great) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Fredericka the Great', cursive;
+      background-color: #fafafa;
+      color: #222;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      color: #0d47a1;
+      text-shadow: 1px 1px 3px #aaa;
+    }
+
+    p {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    .explanation {
+      background: #ffffff;
+      padding: 20px;
+      border: 2px solid #0d47a1;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(13, 71, 161, 0.3);
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lab 3: Serving Fonts</h1>
+
+  <div class="explanation">
+    <p>
+      In this lab, I served a custom font using <strong>Google Fonts</strong>.  
+      In this lab, I used the Google Fonts to serve the font.   
+      When a page is loaded, the font file is downloaded directly over Google servers by the browser.  
+      This is easy and prevented the need to host font files.
+    </p>
+    <p>
+      I have decided to use the font called <em>Fredericka the Great</em> that has a hand-drawn appearance and is rather playful.  
+      The font difference is easy to notice as it is unique as opposed to common system fonts.
+    </p>
+    <p>
+      In case the font is not loaded, the page will revert to default cursive font to ensure that the text is readable.
+    </p>
+  </div>
+
+  <!-- Required footer -->
+  <footer>
+    <p>Last updated: <span id="lastModified"></span></p>
+  </footer>
+  <script type="text/javascript">
+    var x = document.lastModified;
+    document.getElementById('lastModified').textContent = x;
+  </script>
+</body>
+</html>
