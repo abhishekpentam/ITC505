@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elsevier OA CC-BY Corpus — Styled (Lab 4)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="color-scheme" content="light dark" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="crumbs">ITC505 / Lab 4</p>
+      <h1 class="page-title">Elsevier OA CC-BY Corpus</h1>
+      <p class="byline">
+        <strong>Authors:</strong> Daniel Kershaw (Elsevier Ltd, London, UK) |
+        Rob Koeling (Elsevier Ltd, London, UK) •
+        <strong>Date:</strong> September 16, 2020
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap prose">
+    <article aria-labelledby="abs">
+      <h2 id="abs">Abstract</h2>
+      <p>
+        We introduce the Elsevier OA CC-BY corpus. This is the first open corpus of scientific
+        research papers which has a representative sample from across scientific disciplines.
+        This corpus not only includes the full text of the article, but also the metadata of
+        the documents, along with the bibliographic information for each reference.
+      </p>
+    </article>
+
+    <article aria-labelledby="intro">
+      <h2 id="intro">1. Introduction</h2>
+      <p>
+        We are pleased to release the Elsevier OA CC-BY corpus for NLP and AI research. This is
+        a corpus of 40,091 open access articles from across Elsevier’s journals representing a
+        large scale, cross-discipline set of research data to support NLP and ML research.
+        Research into the application of NLP and ML to scholarly content has attracted
+        considerable attention in recent years. However, progress has been limited due to a lack
+        of large, cross-discipline datasets. This dataset addresses that gap.
+      </p>
+    </article>
+
+    <article aria-labelledby="rel">
+      <h2 id="rel">2. Related Work</h2>
+      <p>
+        Open source datasets of academic articles are not new, with notable corpora including
+        PubMed OA, CiteSeerX, ACL Anthology, and arXiv. However, these often lack resolved
+        metadata, making it difficult to establish citation connections. Projects such as
+        Semantic Scholar’s Literature Graph and S2ORC have advanced this area by extracting
+        references and building large-scale literature graphs.
+      </p>
+    </article>
+
+    <article aria-labelledby="data">
+      <h2 id="data">3. Dataset</h2>
+
+      <h3 id="sample">3.1 Data Sampling</h3>
+      <p>
+        The corpus consists of articles published since 2014, covered by a CC-BY 4.0 licence.
+        A stratified sampling method ensured equal representation from Elsevier’s subject
+        classifications (ASJC codes). 2,000 documents were sampled from each of 27 top-level
+        disciplines.
+      </p>
+
+      <h3 id="structure">3.2 Data Structure</h3>
+      <p>
+        Each article is contained within its own JSON file, with metadata (authors, title,
+        publication info), abstract, body text split by sentences, and bibliographic references.
+        The structure allows reconstruction of article hierarchy and linkage between references.
+      </p>
+
+      <h3 id="coverage">3.3 Data Coverage and Statistics</h3>
+      <p>
+        The dataset has nearly full coverage of metadata, abstracts, and references. Publication
+        years range from 2014–2020, with over 40,000 documents across multiple disciplines
+        including medicine, engineering, environmental science, computer science, and more.
+      </p>
+    </article>
+
+    <article aria-labelledby="use">
+      <h2 id="use">4. Use of Dataset</h2>
+      <p>
+        The dataset can be downloaded from
+        <a href="https://data.mendeley.com/datasets/zm33cdndxs/3" target="_blank" rel="noopener">Mendeley Data</a>.
+        It supports ML and NLP research across domains and can be used to build task-specific
+        datasets for citation intent classification, entity extraction, and more.
+      </p>
+    </article>
+
+    <article aria-labelledby="conc">
+      <h2 id="conc">5. Conclusion and Future Work</h2>
+      <p>
+        This dataset provides a large-scale, cross-discipline corpus that supports the
+        development of ML and NLP models targeting scholarly text. It complements existing
+        domain-specific corpora and enables validation across disciplines.
+      </p>
+    </article>
+
+    <article aria-labelledby="ack">
+      <h2 id="ack">6. Acknowledgements</h2>
+      <p>
+        The authors thank colleagues at Elsevier, including Darin McBeath, Anita Dewaard, and
+        Noelle Gracy, for their contributions.
+      </p>
+    </article>
+
+    <article aria-labelledby="refs">
+      <h2 id="refs">References</h2>
+      <ol>
+        <li>C. Lee Giles, Kurt D. Bollacker, and Steve Lawrence. Citeseer: An automatic citation indexing system. ACM DL ’98, 1998.</li>
+        <li>Dragomir R. Radev, Pradeep Muthukrishnan, and Vahed Qazvinian. The ACL Anthology Network Corpus. NLPIR4DL, 2009.</li>
+        <li>Tarek Saier and Michael Färber. unarXive: A large scholarly dataset with full-text and metadata. Scientometrics, 2020.</li>
+        <li>Waleed Ammar et al. Construction of the Literature Graph in Semantic Scholar. NAACL-HLT Industry Papers, 2018.</li>
+        <li>Kyle Lo et al. S2ORC: The Semantic Scholar Open Research Corpus. ACL 2020.</li>
+        <li>Lucy Lu Wang et al. CORD-19: The COVID-19 Open Research Dataset, 2020.</li>
+        <li>Additional references as cited in the paper…</li>
+      </ol>
+    </article>
+
+    <hr class="section-divider" />
+
+    <!-- Addendum required by Lab 4 -->
+    <section aria-labelledby="addendum">
+      <h2 id="addendum">Addendum: Rationale for Presentational Choices</h2>
+
+      <h3>Typeface choices</h3>
+      <p>
+        I used a system-UI font stack to respect platform diversity and performance—no webfont
+        download is required. This yields San Francisco on macOS/iOS, Segoe UI on Windows,
+        Roboto/Inter on many Linux/Android builds, and falls back to generic <code>sans-serif</code>.
+        For long-form reading, the stack renders crisply on laptop-density displays.
+      </p>
+
+      <h3>Heading hierarchy & text sizing</h3>
+      <p>
+        There is exactly one <code>&lt;h1&gt;</code> (the paper title). Section headings are
+        <code>&lt;h2&gt;</code> and subsections <code>&lt;h3&gt;</code>. Sizes use
+        <code>clamp()</code> to scale modestly with viewport width while remaining comfortable
+        on laptop screens: body at ~18px, <code>h2</code> roughly 28–32px, and
+        <code>h3</code> ~22–24px. Line-height is set to 1.65 for readable academic paragraphs.
+      </p>
+
+      <h3>Color system</h3>
+      <p>
+        A neutral light theme (near-white background, graphite text) minimizes glare and
+        emphasizes content. Accent hues are a desaturated blue for links and subtle dividers.
+        I also honor user preferences with <code>prefers-color-scheme: dark</code> to invert
+        tokens for comfortable evening reading on laptops.
+      </p>
+
+      <h3>Spacing (margins & padding)</h3>
+      <p>
+        Content width is limited to ~72ch to avoid long line length. A consistent spacing scale
+        (4px baseline) provides ample white space between sections, lists, and headings. Lists
+        use hanging markers and balanced indent. The page header and the addendum are visually
+        separated with increased top/bottom rhythm and a rule.
+      </p>
+
+      <h3>Layout & affordances</h3>
+      <p>
+        The layout is single-column for focused reading on laptop screens. Links gain a clear
+        focus ring and underline to meet accessibility expectations. Long reference items use
+        comfortable list spacing and numeric alignment for easy citation scanning.
+      </p>
+
+      <h3>Modern CSS & platform respect</h3>
+      <ul>
+        <li>Custom properties (CSS variables) for color, type scale, and spacing.</li>
+        <li><code>prefers-color-scheme</code> for light/dark without JS.</li>
+        <li><code>clamp()</code> for fluid but bounded typography.</li>
+        <li>High-contrast focus outlines; no reliance on color alone.</li>
+        <li>Reduced-motion courtesy (no animation added for this reading context).</li>
+      </ul>
+
+      <h3>HTML abuse</h3>
+      <p>
+        The Lab 2 source already used an appropriate semantic outline. For Lab 4, I:
+        (a) kept a single <code>&lt;h1&gt;</code> for the paper title,
+        (b) standardized all major sections to <code>&lt;h2&gt;</code> and their parts to
+        <code>&lt;h3&gt;</code>, and
+        (c) wrapped the header metadata in a presentational byline rather than forcing a wrong
+        heading level. No headings are chosen for style; all styling now lives in CSS.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Last updated: <span id="lastModified"></span></p>
+    </div>
+  </footer>
+  <script type="text/javascript">
+    var x = document.lastModified;
+    document.getElementById('lastModified').textContent = x;
+  </script>
+</body>
+</html>

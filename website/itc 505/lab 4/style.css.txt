@@ -1,0 +1,168 @@
+/* ================================
+   Lab 4 — Presentational CSS
+   Author: Abhishek Pentam (ap4236)
+   ================================ */
+
+/* ----- Design tokens ----- */
+:root {
+  /* Color tokens (light) */
+  --bg: #ffffff;
+  --text: #1b1f23;
+  --muted-text: #4b5563;
+  --accent: #2b6cb0;
+  --rule: #e5e7eb;
+  --code-bg: #f6f8fa;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+               "Noto Sans", "Liberation Sans", Inter, Arial, sans-serif,
+               "Apple Color Emoji", "Segoe UI Emoji";
+
+  /* Type scale (fluid but bounded for laptops) */
+  --size-body: clamp(1.0625rem, 0.98rem + 0.3vw, 1.125rem);  /* ~17–18px */
+  --size-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.5rem);       /* ~22–24px */
+  --size-h2: clamp(1.75rem, 1.55rem + 0.8vw, 2rem);          /* ~28–32px */
+  --size-h1: clamp(2.125rem, 1.8rem + 1.2vw, 2.5rem);        /* ~34–40px */
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Max line length for long-form reading */
+  --measure: 72ch;
+
+  /* Focus ring */
+  --focus: 2px solid #2563eb;
+}
+
+/* Dark theme tokens */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0f14;
+    --text: #e5e7eb;
+    --muted-text: #a1a1aa;
+    --accent: #7aa2ff;
+    --rule: #1f2937;
+    --code-bg: #0f172a;
+    --focus: 2px solid #93c5fd;
+  }
+}
+
+/* ----- Global resets & base ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.65;
+  font-size: var(--size-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Containers */
+.wrap {
+  max-width: var(--measure);
+  padding-inline: var(--space-4);
+  margin-inline: auto;
+}
+
+/* Headings */
+h1, h2, h3 {
+  line-height: 1.2;
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.005em;
+}
+
+h1 { font-size: var(--size-h1); margin-top: var(--space-6); }
+h2 { font-size: var(--size-h2); }
+h3 { font-size: var(--size-h3); }
+
+/* Prose spacing */
+.prose p { margin: 0 0 var(--space-4); }
+.prose ol, .prose ul { margin: 0 0 var(--space-5) var(--space-5); padding-left: var(--space-5); }
+.prose li + li { margin-top: var(--space-2); }
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+}
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: var(--focus); outline-offset: 2px; }
+
+/* Header & byline */
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  padding: var(--space-6) 0 var(--space-5);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 6%, var(--bg)) 0%, var(--bg) 100%);
+}
+.crumbs {
+  color: var(--muted-text);
+  margin: 0 0 var(--space-2);
+  font-size: 0.9375rem;
+}
+.page-title { margin: 0 0 var(--space-2); }
+.byline {
+  margin: 0;
+  color: var(--muted-text);
+}
+
+/* Section divider */
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: var(--space-7) 0 var(--space-6);
+}
+
+/* Code blocks (used in Addendum) */
+code {
+  background: var(--code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: 0.35rem;
+  font-size: 0.95em;
+}
+
+/* Footer */
+.site-footer {
+  margin-top: var(--space-7);
+  padding: var(--space-5) 0;
+  border-top: 1px solid var(--rule);
+  color: var(--muted-text);
+}
+
+/* Selection color for readability */
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, var(--bg));
+}
+
+/* Respect reduced motion (no animations used, but guard anyway) */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Print (simple black on white) */
+@media print {
+  :root { --bg: #ffffff; --text: #000000; }
+  a { color: #000000; text-decoration: underline; }
+  .site-header, .site-footer { border: 0; background: none; }
+  .crumbs { color: #444; }
+}
