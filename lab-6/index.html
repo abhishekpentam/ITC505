@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ITC-505 Lab 6 | Abhishek Pentam</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="layout-grid">
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="brand">
+            <div class="logo-circle">AP</div>
+            <div class="title-block">
+                <h1>Abhishek Pentam • Lab 6</h1>
+                <p class="subtitle">Holy Grail Layout + Interactive JavaScript</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV / MENU SIDEBAR -->
+    <nav class="sidebar-left">
+        <h2 class="menu-label">Navigation</h2>
+        <ul class="menu-list">
+            <li><a href="#">🏠 Dashboard</a></li>
+            <li><a href="#">📊 Progress Tracker</a></li>
+            <li><a href="#">🍽 Meals &amp; Macros</a></li>
+            <li><a href="#">💪 Workout Planner</a></li>
+            <li><a href="#">⚙️ Settings</a></li>
+        </ul>
+
+        <div class="nav-card">
+            <p class="nav-card-head">Status</p>
+            <p class="nav-card-body">
+                User: <strong>Abhishek</strong><br />
+                Course: <strong>ITC-505</strong><br />
+                Lab: <strong>6</strong><br />
+            </p>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+        <section class="tool-card">
+            <h2 class="tool-title">Bubble Sort Visual Tool 🧠</h2>
+            <p class="tool-desc">
+                Type a list of numbers (comma-separated), then click <strong>Sort</strong>.
+                We'll run Bubble Sort in JavaScript and show:
+                <em>Original array → Sorted array</em>.
+            </p>
+
+            <div class="form-row">
+                <label for="numbersInput">Enter numbers:</label>
+                <input id="numbersInput" type="text" placeholder="e.g. 5, 2, 9, 1, 3" />
+            </div>
+
+            <div class="btn-row">
+                <button id="sortBtn" class="btn-primary">Sort Numbers</button>
+                <button id="randomBtn" class="btn-ghost">Generate Random</button>
+            </div>
+
+            <div class="results-area">
+                <div class="result-block">
+                    <h3>Original:</h3>
+                    <pre id="originalOutput" class="codebox">[ ]</pre>
+                </div>
+                <div class="result-block">
+                    <h3>Sorted:</h3>
+                    <pre id="sortedOutput" class="codebox">[ ]</pre>
+                </div>
+                <div class="steps-block">
+                    <h3>Steps (Bubble Sort passes):</h3>
+                    <div id="stepsLog" class="steps-log"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- RIGHT SIDEBAR / ADVERTISEMENT -->
+    <aside class="sidebar-right">
+        <h2 class="ad-label">Sponsored 🔗</h2>
+
+        <!-- WATCH ADVERTISEMENT -->
+        <a class="ad-card"
+           href="https://www.amazon.com/Numerals-Chronograph-Stainless-Multi-Function-Resistant/dp/B09W9C9K9X"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <!-- product image (blue dial / silver strap) -->
+            <img
+                src="https://m.media-amazon.com/images/I/61x9kf3NabL._AC_SL1011_.jpg"
+                alt="Men's Stainless Steel Chronograph Watch - Blue dial, silver band"
+                class="ad-img" />
+
+            <div class="ad-info">
+                <p class="ad-name">
+                    Men's Stainless Steel Chronograph Watch
+                </p>
+                <p class="ad-tag">
+                    🔵 Blue dial • gold/silver tone case • 📅 Date window • 💧 Water resistant
+                </p>
+                <p class="ad-cta">View on Amazon →</p>
+            </div>
+        </a>
+
+        <p class="ad-note">
+            Two-tone stainless steel band, blue chronograph face, luminous hands, and daily-use water
+            resistance (rated ~30M). Stylish dress / casual look.:contentReference[oaicite:0]{index=0}
+        </p>
+    </aside>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <section class="footer-inner">
+            <div class="addendum">
+                <h2>Lab 6 Addendum</h2>
+                <p>
+                    <strong>Problem solved:</strong> I built an interactive Bubble Sort tool.
+                    The user types any sequence of numbers, and my JavaScript sorts them in ascending
+                    order using the Bubble Sort algorithm.
+                </p>
+                <p>
+                    <strong>How it works:</strong> When you click "Sort Numbers", I read the string
+                    from the text input, convert it into an array of integers, and then run a
+                    Bubble Sort function in <code>script.js</code>. After every outer pass of the
+                    algorithm, I log the intermediate array state in the "Steps" panel so you can
+                    watch it get more and more sorted.
+                </p>
+                <p>
+                    <strong>Interactivity / events:</strong> The Sort button and Random button are
+                    both hooked to <code>addEventListener("click", ...)</code>. This satisfies the
+                    requirement that the page responds to at least one event.
+                </p>
+                <p>
+                    <strong>Difficulties:</strong> Main issue was cleaning the user input
+                    (extra spaces, empty values). I solved it by splitting on commas,
+                    trimming each piece, and using <code>Number()</code> so non-numeric
+                    values are skipped safely.
+                </p>
+            </div>
+
+            <div class="last-updated">
+                <p>Last updated:
+                    <span id="lastModified"></span>
+                </p>
+            </div>
+        </section>
+    </footer>
+</div>
+
+<!-- external JS -->
+<script src="script.js"></script>
+
+<!-- required lastModified script -->
+<script type="text/javascript">
+    var x = document.lastModified;
+    document.getElementById('lastModified').textContent = x;
+</script>
+</body>
+</html>
