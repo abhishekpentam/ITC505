@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Choose Your Own Adventure – ITC-505 Mid-Term – Abhishek Pentam</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="ITC-505 Mid-Term Project: Choose Your Own Adventure game using HTML, CSS, and JavaScript.">
+</head>
+<body>
+  <header>
+    <h1>Choose Your Own Adventure – <span style="font-weight:700">Abhishek Pentam</span></h1>
+    <p class="small">Use buttons or press <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd> to choose.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <div id="image" aria-live="polite" aria-label="Scene image area">
+        <img src="assets/start.svg" alt="Start scene">
+      </div>
+      <div id="story" class="fade-in"></div>
+      <div id="choices" class="fade-in" role="group" aria-label="Choices"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Last updated: <span id="lastModified"></span></p>
+    <p class="small">Course: ITC-505 • Section 001 • Fall 2025 • Instructor: (add name)</p>
+  </footer>
+  <script>
+    var x = document.lastModified;
+    document.getElementById('lastModified').textContent = x;
+  </script>
+  <script src="script.js" defer></script>
+</body>
+</html>
 
