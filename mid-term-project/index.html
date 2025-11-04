@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thrones of Winterhold – ITC-505 Mid-Term – Abhishek Pentam</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Original fantasy Choose Your Own Adventure with dragons & magic for ITC-505.">
+</head>
+<body>
+  <header>
+    <h1>Thrones of Winterhold — <span style="font-weight:700">Abhishek Pentam</span></h1>
+    <p class="small">Pick with buttons or press <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd>.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <div id="image" aria-live="polite" aria-label="Scene image area">
+        <img src="assets/start.svg" alt="Start scene">
+      </div>
+      <div id="story" class="fade-in"></div>
+      <div id="choices" class="fade-in" role="group" aria-label="Choices"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Last updated: <span id="lastModified"></span></p>
+    <p class="small">Course: ITC-505 • Section 001 • Fall 2025</p>
+  </footer>
+
+  <!-- 🧾 Comprehensive Addendum -->
+  <hr>
+  <section class="addendum">
+    <h2>Project Addendum – Thrones of Winterhold</h2>
+
+    <h3>Overview</h3>
+    <p>
+      <strong>Thrones of Winterhold</strong> is an interactive “Choose Your Own Adventure” web story designed
+      for the <strong>ITC-505 Mid-Term (Fall 2025)</strong> project. Players assume the role of <em>Arion Snow</em>,
+      whose choices determine the fate of kingdoms, dragons, and the Iron Crown.
+    </p>
+
+    <h3>Design & Structure</h3>
+    <ul>
+      <li><strong>index.html</strong> – Semantic HTML structure with header, main story area, footer, and addendum.</li>
+      <li><strong>style.css</strong> – Custom “Dragons & Magic” theme using CSS variables, grid, and responsive typography.</li>
+      <li><strong>script.js</strong> – Core logic for rendering story nodes, handling user choices, and keyboard controls (1–3 keys).</li>
+      <li><strong>assets/</strong> – Folder containing all SVG artwork and icons.</li>
+    </ul>
+
+    <h3>Functionality</h3>
+    <ul>
+      <li>The story content is stored as a single JavaScript object <code>story</code> with nested paths.</li>
+      <li>Each scene displays text, an image, and available choices as buttons.</li>
+      <li>When an ending is reached, the user can restart the adventure.</li>
+      <li>Keyboard shortcuts allow accessibility and faster navigation.</li>
+    </ul>
+
+    <h3>Accessibility & Usability</h3>
+    <ul>
+      <li>All dynamic regions include <code>aria-live</code> labels for screen readers.</li>
+      <li>High-contrast theme ensures readability against dark background.</li>
+      <li>Keyboard navigation (1–3) enhances inclusivity for non-mouse users.</li>
+    </ul>
+
+    <h3>Technologies Used</h3>
+    <ul>
+      <li>HTML5, CSS3 (Flexbox & Grid)</li>
+      <li>Vanilla JavaScript (no libraries or frameworks)</li>
+      <li>SVG images for lightweight visuals</li>
+    </ul>
+
+
+    <h3>Author Reflection</h3>
+    <p>
+      This project demonstrates the integration of storytelling, web design, and interactivity.
+      The goal was to create an accessible, aesthetic, and immersive experience without external
+      frameworks — showcasing full understanding of JavaScript DOM manipulation and responsive design.
+    </p>
+
+    <p class="credit">
+      Created by <strong>Abhishek Pentam</strong> • ITC-505 Section 001 • Fall 2025
+    </p>
+  </section>
+
+  <script>
+    var x = document.lastModified;
+    document.getElementById('lastModified').textContent = x;
+  </script>
+  <script src="script.js" defer></script>
+</body>
+</html>
