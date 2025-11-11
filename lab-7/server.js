@@ -7,14 +7,13 @@ const server = express();
 server.use(express.urlencoded({ extended: true }));
 server.use(logger('dev'));
 
-// Original sample route from instructions
+// Sample route from the lab instructions (still works)
 server.get('/do_a_random', (req, res) => {
   res.send(`Your number is: ${Math.floor(Math.random() * 100) + 1}`);
 });
 
-// ---------- Helper to render the Mad Lib page (story under button) ----------
-
-function renderMadLibPage(formData, storyHtml = '') {
+// Helper to render the page with the story injected under the button
+function renderMadLibPage(formData = {}, storyHtml = '') {
   const {
     heroName = '',
     adjective = '',
@@ -22,7 +21,7 @@ function renderMadLibPage(formData, storyHtml = '') {
     place = '',
     verb = '',
     pluralNoun = '',
-  } = formData || {};
+  } = formData;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -243,7 +242,7 @@ function renderMadLibPage(formData, storyHtml = '') {
         </div>
       </form>
 
-      <!-- STORY + ADDENDUM APPEAR DIRECTLY BELOW THE BUTTON -->
+      <!-- 👇 STORY SHOWS HERE, directly under Go Mad! button -->
       <div class="story">
         ${storyHtml || `
         <p class="placeholder">
@@ -303,12 +302,10 @@ function renderMadLibPage(formData, storyHtml = '') {
 </html>`;
 }
 
-// ---------- POST handler for the form ----------
-
+// Handle POST from the form – same URL as the form’s action
 function handleMadLibPost(req, res) {
   const { heroName, adjective, animal, place, verb, pluralNoun } = req.body;
 
-  // Validate all fields
   if (!heroName || !adjective || !animal || !place || !verb || !pluralNoun) {
     const errorHtml = `
       <p class="error">
@@ -319,7 +316,6 @@ function handleMadLibPost(req, res) {
     return;
   }
 
-  // Build the story
   const story = `
     <p>
       Once upon a chilly evening in <strong>${place}</strong>, there lived a very
@@ -338,11 +334,11 @@ function handleMadLibPost(req, res) {
   res.send(page);
 }
 
-// POST routes (same URL the form is served from)
+// POST routes (same URL your form uses)
 server.post('/ITC505/lab-7/index.html', handleMadLibPost);
 server.post('/ITC505/lab-7/', handleMadLibPost);
 
-// Static files (other labs)
+// Static files for GET requests (serves index.html, other labs, etc.)
 const publicServedFilesPath = path.join(__dirname, 'public');
 server.use(express.static(publicServedFilesPath));
 
