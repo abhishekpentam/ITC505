@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lab 7: Mad Lib - ITC505</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1f2937;
+      color: #f9fafb;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      margin-top: 0;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      font-weight: bold;
+      align-self: center;
+    }
+    input[type="text"] {
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+    }
+    button {
+      grid-column: 1 / -1;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    #storyResult {
+      padding: 1rem;
+      border-radius: 4px;
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+    }
+    #storyResult p {
+      margin-top: 0.25rem;
+    }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lab 7: Mad Lib</h1>
+    <p>ITC-505 - Web Technology</p>
+  </header>
+  <main>
+    <h2>Mad Lib Form</h2>
+    <form action="/ITC505/lab-7/index.html" method="POST">
+      <label for="name">Name (person):</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="adjective">Adjective:</label>
+      <input type="text" id="adjective" name="adjective" required />
+
+      <label for="animal">Animal (singular):</label>
+      <input type="text" id="animal" name="animal" required />
+
+      <label for="place">Place:</label>
+      <input type="text" id="place" name="place" required />
+
+      <label for="activity">Activity (verb ending in -ing):</label>
+      <input type="text" id="activity" name="activity" required />
+
+      <button type="submit">Go Mad</button>
+    </form>
+
+    <section id="storyResult">
+      <h2>Your Mad Lib Story</h2>
+      <p>No story yet – fill the form and click “Go Mad”!</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Last updated:
+      <span id="lastModified"></span>
+    </p>
+  </footer>
+  <script type="text/javascript">
+    var x = document.lastModified;
+    document.getElementById('lastModified').textContent = x;
+  </script>
+</body>
+</html>
