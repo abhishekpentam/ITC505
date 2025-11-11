@@ -8,13 +8,13 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(logger('dev'));
 
-// Sample route from instructions
+// Sample route from starter code
 server.get('/do_a_random', (req, res) => {
   res.send(`Your number is: ${Math.floor(Math.random() * 100) + 1}`);
 });
 
-// ---------- Mad Lib API (used by fetch, NO page reload) ----------
-
+// -------- Mad Lib POST route (back-end JS) --------
+// This is what fetch() calls. It returns ONLY the story HTML (no full page).
 server.post('/ITC505/lab-7/madlib', (req, res) => {
   const { heroName, adjective, animal, place, verb, pluralNoun } = req.body;
 
@@ -27,7 +27,6 @@ server.post('/ITC505/lab-7/madlib', (req, res) => {
     `);
   }
 
-  // Build story HTML snippet (no full page, just the story block)
   const storyHtml = `
     <p>
       Once upon a chilly evening in <strong>${place}</strong>, there lived a very
@@ -46,8 +45,7 @@ server.post('/ITC505/lab-7/madlib', (req, res) => {
   res.send(storyHtml);
 });
 
-// ---------- Static files (serves index.html, other labs, etc.) ----------
-
+// -------- Static files --------
 const publicServedFilesPath = path.join(__dirname, 'public');
 server.use(express.static(publicServedFilesPath));
 
