@@ -170,15 +170,15 @@
 <body>
   <header>
     <h1>Lab 7: Mad Lib</h1>
-    <p>ITC-505 &mdash; ExpressJS Mad Lib (story below button, no reload)</p>
+    <p>ITC-505 &mdash; Mad Lib (story below Go Mad! button)</p>
   </header>
 
   <main>
     <section class="card">
       <h2>Mad Lib Form</h2>
 
-      <!-- Form uses POST and this URL for rubric, but JS will intercept -->
-      <form id="madlibForm" action="/ITC505/lab-7/index.html" method="POST">
+      <!-- "Brute force" client-side: we'll intercept this with JS -->
+      <form id="madlibForm" action="#" method="POST">
         <p class="hint">
           Fill all fields, then click <strong>Go Mad!</strong>. Your story will appear just below the button.
         </p>
@@ -233,24 +233,20 @@
       <div id="addendum">
         <h3>Addendum</h3>
         <p>
-          This page uses an HTML <code>&lt;form&gt;</code> with the <strong>POST</strong> method and an action
-          pointing back to the Lab 7 URL, as required by the assignment. Instead of letting the browser reload the
-          page on submit, modern front-end JavaScript intercepts the submit event and sends the data to the ExpressJS
-          server using <code>fetch()</code>.
+          This page implements a simple Mad Lib entirely in front-end JavaScript. The form collects six words:
+          a hero's name, an adjective, an animal, a place, a verb, and a plural noun.
         </p>
         <p>
-          On the back end, <code>server.js</code> defines a <code>server.post()</code> route at
-          <code>/ITC505/lab-7/madlib</code>. The route reads all six fields from <code>req.body</code>, builds an
-          HTML snippet for the completed Mad Lib story, and sends that snippet back in the response. The client-side
-          script injects this HTML into the <code>#storyContainer</code> element so that the story appears directly
-          <strong>under the Go Mad! button on the same page</strong> without a full page reload.
+          When the user clicks <strong>Go Mad!</strong>, a JavaScript event listener prevents the default form
+          submission so the page does not reload. Instead, the script reads the values from the input fields,
+          performs a basic check that all six are filled in, and then builds a short story string using
+          template literals. That story is injected into the <code>#storyContainer</code> element so that it
+          appears directly <strong>under the Go Mad! button on the same page</strong>.
         </p>
         <p>
-          As a fallback, if the POST request fails (for example, if the server blocks it with a 405 status), the
-          front-end script generates the same story purely in JavaScript so the user still sees a result. The
-          “Filled X / 6 fields” indicator is driven by a small front-end function that counts non-empty inputs.
-          Finally, the footer includes the required <code>document.lastModified</code> script to display the last
-          update time, matching the lab instructions.
+          A small helper function also counts how many inputs contain text and updates the
+          “Filled X / 6 fields” progress message. The footer includes the required
+          <code>document.lastModified</code> script so the page shows the last time it was updated.
         </p>
       </div>
     </section>
@@ -277,62 +273,42 @@
     inputs.forEach(input => input.addEventListener('input', updateProgress));
     updateProgress();
 
-    // AJAX submit: no page reload, story appears under the button
+    // "Brute force" client-side Mad Lib – no server, no reload
     const form = document.getElementById('madlibForm');
     const storyContainer = document.getElementById('storyContainer');
 
     form.addEventListener('submit', function (event) {
-      event.preventDefault(); // stop normal form submission (no reload)
+      event.preventDefault(); // stop normal submit / reload
 
-      const formData = new FormData(form);
-      const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value.trim();
-      });
+      const heroName = document.getElementById('heroName').value.trim();
+      const adjective = document.getElementById('adjective').value.trim();
+      const animal = document.getElementById('animal').value.trim();
+      const place = document.getElementById('place').value.trim();
+      const verb = document.getElementById('verb').value.trim();
+      const pluralNoun = document.getElementById('pluralNoun').value.trim();
 
-      // Simple front-end validation
-      const allFilled = Object.values(data).every(v => v.length > 0);
-      if (!allFilled) {
-        storyContainer.innerHTML = '<p class="error">Please fill out <strong>all six</strong> fields before going mad.</p>';
+      if (!heroName || !adjective || !animal || !place || !verb || !pluralNoun) {
+        storyContainer.innerHTML =
+          '<p class="error">Please fill out <strong>all six</strong> fields before going mad.</p>';
         return;
       }
 
-      // Try sending to the Express back end
-      fetch('/ITC505/lab-7/madlib', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(async (response) => {
-        const text = await response.text();
-        if (!response.ok) {
-          // If server returns 405/400/etc., fall back to client-side story
-          throw new Error('Server error: ' + response.status);
-        }
-        storyContainer.innerHTML = text;
-      })
-      .catch((err) => {
-        console.warn('Falling back to client-side story:', err);
+      const storyHtml = `
+        <p>
+          Once upon a chilly evening in <strong>${place}</strong>, there lived a very
+          <strong>${adjective}</strong> <strong>${animal}</strong> named
+          <strong>${heroName}</strong>.
+        </p>
+        <p>
+          Every day, ${heroName} loved to <strong>${verb}</strong> with a pile of
+          <strong>${pluralNoun}</strong>, which always made the neighbors laugh.
+          One day, ${heroName} brought those ${pluralNoun} to campus in
+          <strong>${place}</strong> so every ITC-505 student could take a break,
+          smile, and remember that even web pages can tell silly stories.
+        </p>
+      `;
 
-        // Fallback: build the same story on the client so you still see output
-        const { heroName, adjective, animal, place, verb, pluralNoun } = data;
-        storyContainer.innerHTML = `
-          <p>
-            Once upon a chilly evening in <strong>${place}</strong>, there lived a very
-            <strong>${adjective}</strong> <strong>${animal}</strong> named
-            <strong>${heroName}</strong>.
-          </p>
-          <p>
-            Every day, ${heroName} loved to <strong>${verb}</strong> with a pile of
-            <strong>${pluralNoun}</strong>, which always made the neighbors laugh.
-            One day, ${heroName} brought those ${pluralNoun} to campus in
-            <strong>${place}</strong> so every ITC-505 student could take a break,
-            smile, and remember that even web servers can tell silly stories.
-          </p>
-        `;
-      });
+      storyContainer.innerHTML = storyHtml;
     });
   </script>
 </body>
