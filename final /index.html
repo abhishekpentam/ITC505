@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Revenge of Lights Out</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Fun / "font-crazy" combo: retro title + clean body -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <style>
+        :root {
+            --bg-color: #050816;
+            --card-bg: #0f172a;
+            --accent: #38bdf8;
+            --accent-soft: rgba(56, 189, 248, 0.15);
+            --accent-strong: #f97316;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --danger: #f97373;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1d2535, #020617 55%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .page {
+            max-width: 1100px;
+            width: 100%;
+            background: linear-gradient(
+                    135deg,
+                    rgba(56, 189, 248, 0.07),
+                    transparent 60%
+                ),
+                rgba(15, 23, 42, 0.96);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 1.75rem 1.75rem 1.25rem;
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+            gap: 1.75rem;
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        header {
+            grid-column: 1 / -1;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Press Start 2P", system-ui, sans-serif;
+            font-size: clamp(1rem, 2vw, 1.35rem);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-shadow:
+                0 0 6px rgba(56, 189, 248, 0.9),
+                0 0 18px rgba(56, 189, 248, 0.5);
+        }
+
+        .subtitle {
+            margin: 0.1rem 0 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .badge-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #4ade80, #15803d);
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+        }
+
+        /* Left: Game Section */
+
+        .game-panel {
+            background: radial-gradient(circle at top left, #0b1120, #020617);
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.25rem 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 16px 35px rgba(15, 23, 42, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-panel::before {
+            content: "";
+            position: absolute;
+            inset: -30%;
+            background: radial-gradient(
+                circle at 20% -10%,
+                rgba(56, 189, 248, 0.15),
+                transparent 60%
+            );
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .game-header-row {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 0.75rem;
+        }
+
+        .game-title-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .game-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            font-size: 0.7rem;
+        }
+
+        .pill-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent-strong);
+        }
+
+        .controls {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-card {
+            padding: 0.4rem 0.55rem;
+            border-radius: 0.75rem;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            font-size: 0.78rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.05rem;
+            min-width: 90px;
+        }
+
+        .stat-label {
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-size: 0.64rem;
+            color: var(--text-muted);
+        }
+
+        .stat-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .btn {
+            border-radius: 999px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 0.55rem 1.05rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: radial-gradient(
+                circle at 20% 0%,
+                #38bdf8,
+                #0ea5e9 40%,
+                #1d4ed8 80%
+            );
+            color: #f9fafb;
+            box-shadow:
+                0 0 10px rgba(56, 189, 248, 0.8),
+                0 8px 20px rgba(15, 23, 42, 0.95);
+            transition:
+                transform 0.12s ease,
+                box-shadow 0.12s ease,
+                filter 0.12s ease;
+        }
+
+        .btn span.icon {
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.03);
+            box-shadow:
+                0 0 13px rgba(56, 189, 248, 0.95),
+                0 10px 22px rgba(15, 23, 42, 0.95);
+        }
+
+        .btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow:
+                0 0 7px rgba(56, 189, 248, 0.7),
+                0 6px 15px rgba(15, 23, 42, 0.9);
+        }
+
+        .board-wrapper {
+            position: relative;
+            z-index: 1;
+            margin-top: 0.9rem;
+            padding: 0.85rem;
+            border-radius: 1rem;
+            background: radial-gradient(circle at top, #020617, #020617);
+            border: 1px solid rgba(51, 65, 85, 0.9);
+            box-shadow:
+                0 12px 28px rgba(15, 23, 42, 0.9),
+                0 0 0 1px rgba(15, 23, 42, 1);
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(50px, 70px));
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 480px) {
+            #board {
+                grid-template-columns: repeat(5, minmax(44px, 1fr));
+                gap: 0.4rem;
+            }
+        }
+
+        .cell {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            border-radius: 0.85rem;
+            border: 1px solid rgba(15, 23, 42, 1);
+            background: radial-gradient(circle at 30% 20%, #facc15, #f97316);
+            box-shadow:
+                0 0 18px rgba(249, 115, 22, 0.85),
+                inset 0 -5px 12px rgba(124, 45, 18, 0.8),
+                0 6px 12px rgba(15, 23, 42, 0.85);
+            cursor: pointer;
+            overflow: hidden;
+            transition:
+                transform 0.1s ease,
+                box-shadow 0.12s ease,
+                filter 0.12s ease,
+                background 0.12s ease;
+        }
+
+        .cell::before {
+            content: "";
+            position: absolute;
+            inset: 18%;
+            border-radius: 0.7rem;
+            background: radial-gradient(circle at 20% 0%, #ffffff, transparent 45%);
+            opacity: 0.9;
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        .cell:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .cell:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.03);
+        }
+
+        .cell:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .cell.is-off {
+            background: radial-gradient(circle at 30% 20%, #020617, #020617);
+            box-shadow:
+                inset 0 0 12px rgba(15, 23, 42, 1),
+                0 4px 9px rgba(15, 23, 42, 0.9);
+        }
+
+        .cell.is-off::before {
+            opacity: 0.25;
+            background: radial-gradient(circle at 25% 0%, #64748b, transparent 55%);
+        }
+
+        .win-banner {
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            background: radial-gradient(
+                circle at top,
+                rgba(56, 189, 248, 0.25),
+                rgba(15, 23, 42, 0.98)
+            );
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .win-banner.active {
+            display: flex;
+            animation: popIn 0.25s ease-out;
+        }
+
+        .win-card {
+            padding: 1rem 1.25rem;
+            border-radius: 0.9rem;
+            background: rgba(15, 23, 42, 0.97);
+            border: 1px solid rgba(56, 189, 248, 0.6);
+            box-shadow:
+                0 0 20px rgba(56, 189, 248, 0.8),
+                0 14px 28px rgba(15, 23, 42, 0.95);
+            text-align: center;
+            max-width: 260px;
+        }
+
+        .win-title {
+            font-family: "Press Start 2P", system-ui, sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            color: #fbbf24;
+            text-shadow:
+                0 0 6px rgba(251, 191, 36, 0.9),
+                0 0 14px rgba(251, 191, 36, 0.7);
+        }
+
+        .win-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.7rem;
+        }
+
+        .win-highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .win-btn {
+            border-radius: 999px;
+            border: none;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.76rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: linear-gradient(
+                135deg,
+                #22c55e,
+                #16a34a 40%,
+                #15803d 80%
+            );
+            color: #f9fafb;
+            box-shadow:
+                0 0 10px rgba(34, 197, 94, 0.8),
+                0 6px 15px rgba(15, 23, 42, 0.9);
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Right: Instructions / “Addendum helper” */
+
+        .info-panel {
+            background: radial-gradient(
+                    circle at top right,
+                    var(--accent-soft),
+                    transparent 60%
+                ),
+                rgba(15, 23, 42, 0.95);
+            border-radius: 1.25rem;
+            padding: 1.1rem 1.25rem 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            position: relative;
+        }
+
+        .info-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .info-pill {
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+        }
+
+        .info-section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        .info-list {
+            padding-left: 1.1rem;
+            margin: 0.2rem 0 0.3rem;
+        }
+
+        .info-list li {
+            margin-bottom: 0.15rem;
+        }
+
+        .keycaps {
+            display: inline-flex;
+            gap: 0.2rem;
+        }
+
+        .keycaps span {
+            border-radius: 0.4rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            padding: 0.1rem 0.4rem;
+            font-size: 0.7rem;
+        }
+
+        .note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px dashed rgba(148, 163, 184, 0.5);
+            padding-top: 0.35rem;
+            margin-top: 0.35rem;
+        }
+
+        .code-inline {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                "Liberation Mono", "Courier New", monospace;
+            font-size: 0.78rem;
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 0.25rem;
+            padding: 0.05rem 0.35rem;
+        }
+
+        footer {
+            margin-top: 1.25rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div>
+                <h1>Revenge of Lights Out</h1>
+                <p class="subtitle">
+                    Turn off all the lights. Each click flips a cross-shaped pattern of tiles.
+                </p>
+            </div>
+            <div class="badge">
+                <span class="badge-dot"></span>
+                <span>ITC-505 &mdash; Final Project</span>
+            </div>
+        </header>
+
+        <!-- GAME PANEL -->
+        <section class="game-panel" aria-label="Lights Out game board">
+            <div class="game-header-row">
+                <div class="game-title-block">
+                    <div class="game-meta">
+                        <span class="pill-label">Mode</span>
+                        <span class="pill">5 &times; 5 Classic • Random but solvable</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="stat-card" aria-live="polite">
+                        <span class="stat-label">Moves</span>
+                        <span class="stat-value" id="moveCounter">0</span>
+                    </div>
+                    <button id="newGameBtn" class="btn" type="button">
+                        <span class="icon">⟳</span>
+                        New Puzzle
+                    </button>
+                </div>
+            </div>
+
+            <div class="board-wrapper">
+                <div id="board"></div>
+
+                <div class="win-banner" id="winBanner" role="alert">
+                    <div class="win-card">
+                        <div class="win-title">You Win!</div>
+                        <p class="win-text">
+                            All lights are <span class="win-highlight">off</span>.  
+                            Great job solving this configuration.
+                        </p>
+                        <button class="win-btn" type="button" id="playAgainBtn">
+                            Play again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO / INSTRUCTIONS PANEL -->
+        <aside class="info-panel">
+            <div class="info-title">
+                How to Play
+                <span class="info-pill">Student Notes</span>
+            </div>
+            <p>
+                The goal of <strong>Lights Out</strong> is simple: switch off every light on
+                the grid. A tile can be either <em>on</em> (glowing) or <em>off</em> (dark).
+            </p>
+
+            <div>
+                <div class="info-section-title">Rules</div>
+                <ul class="info-list">
+                    <li>Click any tile to toggle it.</li>
+                    <li>The clicked tile and its <strong>up / down / left / right</strong> neighbors flip.</li>
+                    <li>You win when <strong>all 25 tiles</strong> are dark.</li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="info-section-title">Implementation highlights</div>
+                <ul class="info-list">
+                    <li>
+                        The board is built dynamically in JavaScript as a
+                        <span class="code-inline">5 × 5</span> grid.
+                    </li>
+                    <li>
+                        Each click uses a single function to toggle a
+                        cross-shaped pattern, re-used during randomization.
+                    </li>
+                    <li>
+                        The starting state is guaranteed solvable by performing
+                        a series of random simulated moves on an all-off board.
+                    </li>
+                    <li>
+                        A move counter, win overlay, and
+                        <span class="code-inline">window.alert("You win!")</span>
+                        give feedback when the puzzle is solved.
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="info-section-title">Fonts &amp; styling</div>
+                <p>
+                    The page combines a retro arcade title font with a clean body
+                    font delivered via a web font service. The board uses gradients,
+                    glow effects, and subtle animations to make the state changes
+                    visually clear while maintaining accessibility.
+                </p>
+            </div>
+
+            <p class="note">
+                For your written addendum, you can describe:
+                <span class="keycaps">
+                    <span>1.</span>
+                    <span>How you toggle neighbors</span>
+                    <span>2.</span>
+                    <span>How randomization stays solvable</span>
+                    <span>3.</span>
+                    <span>Key styling decisions</span>
+                </span>
+            </p>
+        </aside>
+
+        <!-- REQUIRED FOOTER (per assignment instructions) -->
+        <footer>
+            <p>
+                Last updated:
+                <span id="lastModified"></span>
+            </p>
+        </footer>
+    </div>
+
+    <!-- GAME LOGIC SCRIPT -->
+    <script>
+        (function () {
+            const BOARD_SIZE = 5;
+            const boardElement = document.getElementById("board");
+            const moveCounterEl = document.getElementById("moveCounter");
+            const newGameBtn = document.getElementById("newGameBtn");
+            const winBanner = document.getElementById("winBanner");
+            const playAgainBtn = document.getElementById("playAgainBtn");
+
+            let boardState = [];
+            let moveCount = 0;
+            let acceptingMoves = true;
+
+            /**
+             * Initialize a fresh board (DOM + state), then randomize
+             */
+            function initBoard() {
+                boardElement.innerHTML = "";
+                boardState = [];
+                moveCount = 0;
+                updateMoveCount(0);
+                hideWin();
+
+                for (let row = 0; row < BOARD_SIZE; row++) {
+                    const rowArr = [];
+                    for (let col = 0; col < BOARD_SIZE; col++) {
+                        rowArr.push(false); // all lights start OFF
+
+                        const cell = document.createElement("button");
+                        cell.classList.add("cell", "is-off");
+                        cell.dataset.row = String(row);
+                        cell.dataset.col = String(col);
+                        cell.type = "button";
+                        cell.setAttribute(
+                            "aria-label",
+                            `Light at row ${row + 1}, column ${col + 1}`
+                        );
+
+                        cell.addEventListener("click", handleCellClick);
+                        boardElement.appendChild(cell);
+                    }
+                    boardState.push(rowArr);
+                }
+
+                randomizeBoard();
+            }
+
+            /**
+             * Random but solvable configuration:
+             * Start with all-off board, apply a sequence of random "legal" moves
+             */
+            function randomizeBoard() {
+                const randomMoves = BOARD_SIZE * BOARD_SIZE * 2; // 50 random moves
+                acceptingMoves = false; // don't count these as player moves
+
+                for (let i = 0; i < randomMoves; i++) {
+                    const row = Math.floor(Math.random() * BOARD_SIZE);
+                    const col = Math.floor(Math.random() * BOARD_SIZE);
+                    applyMove(row, col);
+                }
+
+                acceptingMoves = true;
+                moveCount = 0;
+                updateMoveCount(moveCount);
+
+                // If we accidentally randomized to a solved board, randomize again.
+                if (checkWin()) {
+                    randomizeBoard();
+                }
+            }
+
+            function handleCellClick(event) {
+                if (!acceptingMoves) return;
+
+                const target = event.currentTarget;
+                const row = parseInt(target.dataset.row, 10);
+                const col = parseInt(target.dataset.col, 10);
+
+                applyMove(row, col);
+                moveCount++;
+                updateMoveCount(moveCount);
+
+                if (checkWin()) {
+                    handleWin();
+                }
+            }
+
+            /**
+             * Toggles a cross-shaped pattern: (row,col) and its up/down/left/right neighbors
+             */
+            function applyMove(row, col) {
+                toggleCell(row, col);
+                toggleCell(row - 1, col);
+                toggleCell(row + 1, col);
+                toggleCell(row, col - 1);
+                toggleCell(row, col + 1);
+            }
+
+            /**
+             * Toggle a single cell in boardState and update DOM
+             */
+            function toggleCell(row, col) {
+                if (
+                    row < 0 ||
+                    row >= BOARD_SIZE ||
+                    col < 0 ||
+                    col >= BOARD_SIZE
+                ) {
+                    return;
+                }
+
+                boardState[row][col] = !boardState[row][col];
+
+                const selector = `.cell[data-row="${row}"][data-col="${col}"]`;
+                const cellEl = boardElement.querySelector(selector);
+                if (!cellEl) return;
+
+                // When state is true => LIGHT IS ON => remove is-off
+                if (boardState[row][col]) {
+                    cellEl.classList.remove("is-off");
+                } else {
+                    cellEl.classList.add("is-off");
+                }
+            }
+
+            function updateMoveCount(count) {
+                moveCounterEl.textContent = String(count);
+            }
+
+            function checkWin() {
+                for (let row = 0; row < BOARD_SIZE; row++) {
+                    for (let col = 0; col < BOARD_SIZE; col++) {
+                        if (boardState[row][col]) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            function handleWin() {
+                // Overlay banner
+                winBanner.classList.add("active");
+
+                // Required pop-up per assignment
+                window.alert("You win!");
+            }
+
+            function hideWin() {
+                winBanner.classList.remove("active");
+            }
+
+            newGameBtn.addEventListener("click", () => {
+                initBoard();
+            });
+
+            playAgainBtn.addEventListener("click", () => {
+                initBoard();
+            });
+
+            // Boot up the game
+            initBoard();
+        })();
+    </script>
+
+    <!-- REQUIRED lastModified SCRIPT (leave this exactly as given) -->
+    <script type="text/javascript">
+        var x = document.lastModified;
+        document.getElementById("lastModified").textContent = x;
+    </script>
+</body>
+</html>
